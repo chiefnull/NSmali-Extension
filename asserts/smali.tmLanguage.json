@@ -1,0 +1,186 @@
+{
+  "name": "Smali",
+  "scopeName": "source.smali",
+  "fileTypes": ["smali"],
+  "patterns": [
+    { "include": "#comment" },
+    { "include": "#directive" },
+    { "include": "#opcode" },
+    { "include": "#label" },
+    { "include": "#string" },
+    { "include": "#number" },
+    { "include": "#type_descriptor" },
+    { "include": "#field_ref" },
+    { "include": "#method_ref" },
+    { "include": "#register" },
+    { "include": "#keyword" }
+  ],
+  "repository": {
+
+    "comment": {
+      "name": "comment.line.hash.smali",
+      "match": "#.*$"
+    },
+
+    "directive": {
+      "name": "keyword.control.directive.smali",
+      "match": "\\.(class|super|implements|field|method|end method|annotation|end annotation|subannotation|end subannotation|enum|implements|registers|locals|prologue|epilogue|line|source|catch|catchall|packed-switch|sparse-switch|array-data|end packed-switch|end sparse-switch|end array-data|param|restart local|end local|local|throws|parameter|end parameter)\\b"
+    },
+
+    "opcode": {
+      "patterns": [
+        {
+          "comment": "invoke-* opcodes",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\b(invoke-virtual|invoke-super|invoke-direct|invoke-static|invoke-interface|invoke-virtual/range|invoke-super/range|invoke-direct/range|invoke-static/range|invoke-interface/range|invoke-polymorphic|invoke-polymorphic/range|invoke-custom|invoke-custom/range)\\b"
+        },
+        {
+          "comment": "move opcodes",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\b(move|move/from16|move/16|move-wide|move-wide/from16|move-wide/16|move-object|move-object/from16|move-object/16|move-result|move-result-wide|move-result-object|move-exception)\\b"
+        },
+        {
+          "comment": "return opcodes",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\b(return-void|return|return-wide|return-object)\\b"
+        },
+        {
+          "comment": "const opcodes",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\b(const/4|const/16|const|const/high16|const-wide/16|const-wide/32|const-wide|const-wide/high16|const-string|const-string/jumbo|const-class)\\b"
+        },
+        {
+          "comment": "monitor / check / throw",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\b(monitor-enter|monitor-exit|check-cast|instance-of|array-length|new-instance|new-array|filled-new-array|filled-new-array/range|fill-array-data|throw|goto|goto/16|goto/32|packed-switch|sparse-switch)\\b"
+        },
+        {
+          "comment": "cmp opcodes",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\b(cmpl-float|cmpg-float|cmpl-double|cmpg-double|cmp-long)\\b"
+        },
+        {
+          "comment": "if opcodes",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\b(if-eq|if-ne|if-lt|if-ge|if-gt|if-le|if-eqz|if-nez|if-ltz|if-gez|if-gtz|if-lez)\\b"
+        },
+        {
+          "comment": "get/put opcodes",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\b(aget|aget-wide|aget-object|aget-boolean|aget-byte|aget-char|aget-short|aput|aput-wide|aput-object|aput-boolean|aput-byte|aput-char|aput-short|iget|iget-wide|iget-object|iget-boolean|iget-byte|iget-char|iget-short|iput|iput-wide|iput-object|iput-boolean|iput-byte|iput-char|iput-short|sget|sget-wide|sget-object|sget-boolean|sget-byte|sget-char|sget-short|sput|sput-wide|sput-object|sput-boolean|sput-byte|sput-char|sput-short)\\b"
+        },
+        {
+          "comment": "math/bitwise opcodes",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\b(add-int|sub-int|mul-int|div-int|rem-int|and-int|or-int|xor-int|shl-int|shr-int|ushr-int|add-long|sub-long|mul-long|div-long|rem-long|and-long|or-long|xor-long|shl-long|shr-long|ushr-long|add-float|sub-float|mul-float|div-float|rem-float|add-double|sub-double|mul-double|div-double|rem-double|add-int/2addr|sub-int/2addr|mul-int/2addr|div-int/2addr|rem-int/2addr|and-int/2addr|or-int/2addr|xor-int/2addr|shl-int/2addr|shr-int/2addr|ushr-int/2addr|add-long/2addr|sub-long/2addr|mul-long/2addr|div-long/2addr|rem-long/2addr|and-long/2addr|or-long/2addr|xor-long/2addr|shl-long/2addr|shr-long/2addr|ushr-long/2addr|add-float/2addr|sub-float/2addr|mul-float/2addr|div-float/2addr|rem-float/2addr|add-double/2addr|sub-double/2addr|mul-double/2addr|div-double/2addr|rem-double/2addr)\\b"
+        },
+        {
+          "comment": "lit/unop opcodes",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\b(add-int/lit16|rsub-int|mul-int/lit16|div-int/lit16|rem-int/lit16|and-int/lit16|or-int/lit16|xor-int/lit16|add-int/lit8|rsub-int/lit8|mul-int/lit8|div-int/lit8|rem-int/lit8|and-int/lit8|or-int/lit8|xor-int/lit8|shl-int/lit8|shr-int/lit8|ushr-int/lit8|neg-int|not-int|neg-long|not-long|neg-float|neg-double|int-to-long|int-to-float|int-to-double|long-to-int|long-to-float|long-to-double|float-to-int|float-to-long|float-to-double|double-to-int|double-to-long|double-to-float|int-to-byte|int-to-char|int-to-short)\\b"
+        },
+        {
+          "comment": "nop",
+          "name": "entity.name.function.opcode.smali",
+          "match": "\\bnop\\b"
+        }
+      ]
+    },
+
+    "label": {
+      "name": "entity.name.tag.label.smali",
+      "match": "^\\s*(:[a-zA-Z0-9_]+)\\b"
+    },
+
+    "string": {
+      "name": "string.quoted.double.smali",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.smali",
+          "match": "\\\\."
+        }
+      ]
+    },
+
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.smali",
+          "match": "-?0x[0-9a-fA-F]+"
+        },
+        {
+          "name": "constant.numeric.float.smali",
+          "match": "-?[0-9]+\\.[0-9]+"
+        },
+        {
+          "name": "constant.numeric.integer.smali",
+          "match": "-?[0-9]+"
+        }
+      ]
+    },
+
+    "type_descriptor": {
+      "patterns": [
+        {
+          "comment": "Class type  e.g. Ljava/lang/String;",
+          "name": "entity.name.type.class.smali",
+          "match": "L[a-zA-Z0-9_$/]+;"
+        },
+        {
+          "comment": "Array type  e.g. [I  [[Ljava/lang/String;",
+          "name": "entity.name.type.array.smali",
+          "match": "\\[+(?:[BCDFIJSVZ]|L[a-zA-Z0-9_$/]+;)"
+        },
+        {
+          "comment": "Primitive types",
+          "name": "storage.type.primitive.smali",
+          "match": "\\b[BCDFIJSVZ]\\b"
+        }
+      ]
+    },
+
+    "field_ref": {
+      "comment": "Field reference  ClassName->fieldName:Type",
+      "name": "variable.other.field.smali",
+      "match": "L[a-zA-Z0-9_$/]+;->[a-zA-Z0-9_$<>]+(?=:)"
+    },
+
+    "method_ref": {
+      "comment": "Method reference  ClassName->methodName(",
+      "name": "entity.name.function.method.smali",
+      "match": "L[a-zA-Z0-9_$/]+;->[a-zA-Z0-9_$<>]+(?=\\()"
+    },
+
+    "register": {
+      "patterns": [
+        {
+          "name": "variable.parameter.register.smali",
+          "match": "\\bp[0-9]+\\b"
+        },
+        {
+          "name": "variable.other.register.smali",
+          "match": "\\bv[0-9]+\\b"
+        }
+      ]
+    },
+
+    "keyword": {
+      "patterns": [
+        {
+          "name": "storage.modifier.access.smali",
+          "match": "\\b(public|private|protected|static|final|synchronized|bridge|varargs|native|abstract|strictfp|synthetic|constructor|declared-synchronized|interface|enum|annotation|volatile|transient)\\b"
+        },
+        {
+          "name": "constant.language.smali",
+          "match": "\\b(true|false|null)\\b"
+        },
+        {
+          "name": "keyword.operator.smali",
+          "match": "->"
+        }
+      ]
+    }
+  }
+}

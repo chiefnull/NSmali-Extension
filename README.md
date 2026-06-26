@@ -1,57 +1,111 @@
-# Xed-Editor Extension Template
+# <img src="assets/smali-icon.png" width="32"/> Smali Support — Xed-Editor Plugin
 
-This repository is a starting point for building extensions for **Xed-Editor (Karbon)**.
-It includes a ready-to-use template, build scripts, and a simple folder structure so you can focus on writing your extension instead of setting up the environment.
-
-> [!TIP]
-> See the [documentation](https://xed-editor.github.io/Xed-Docs/docs/extensions) page for more details about creating and managing extensions for Xed-Editor.
+> Smali/Baksmali support for [Xed-Editor](https://github.com/Xed-Editor/Xed-Editor) on Android.
 
 ---
 
-## Getting Started
+## Features
 
-### 1. Clone the Template
+- 🎨 **Syntax highlighting** for `.smali` files
+- ⚙️ **Runner 1 — Assemble**: converts `.smali` → `classes.dex`
+- 🔍 **Runner 2 — Disassemble**: converts `.apk` or `.dex` → `.smali` files
+- 📦 Auto-downloads `smali.jar` & `baksmali.jar` on first use
+
+---
+
+## Installation
+
+1. Download the latest `SmaliSupport.zip` from [Releases](../../releases)
+2. Transfer it to your Android device
+3. Open **Xed-Editor** → Extensions → **Install from storage**
+4. Select `SmaliSupport.zip`
+5. Restart Xed-Editor
+
+---
+
+## First Time Setup
+
+Open the **Xed terminal** and run:
 
 ```bash
-git clone https://github.com/Xed-Editor/Extension-Template
-cd Extension-Template
+pkg install openjdk-17 curl
+```
+
+`smali.jar` and `baksmali.jar` will be downloaded automatically to `~/smali-tools/` the first time you run a runner.
+
+---
+
+## Usage
+
+### Assemble (.smali → .dex)
+
+1. Open any `.smali` file in Xed-Editor
+2. Tap **▶ Run**
+3. Select **"Smali: Assemble → .dex"**
+4. `classes.dex` is saved in the same folder
+
+### Disassemble (.apk / .dex → smali)
+
+1. Open a `.apk` or `.dex` file in Xed-Editor
+2. Tap **▶ Run**
+3. Select **"Baksmali: Disassemble → smali"**
+4. A folder `<filename>-smali/` is created with all `.smali` files
+
+---
+
+## Project Structure
+
+```
+smali-plugin/
+├── manifest.json                  ← Plugin metadata
+├── assets/
+│   ├── smali-icon.png             ← Plugin icon
+│   ├── smali.tmLanguage.json      ← Syntax highlighting grammar
+│   └── runners/
+│       ├── assemble.sh            ← Smali assembler runner
+│       └── disassemble.sh         ← Baksmali disassembler runner
+└── src/
+    └── com/rk/smali/
+        └── Main.kt                ← Extension entry point
 ```
 
 ---
 
-### 2. Configure Your Extension
+## Building from Source
 
-Before building, update the following in `manifest.json`:
+### Requirements
 
-* `name` – your extension’s name
-* `version` – version of your extension
-* `author` – Developer of the extension
+- Android Studio
+- JDK 17+
+- Git
 
->[!WARNING]
-If you rename the main class or move it to another package/folder, **you must update the `mainClass` field in `manifest.json`**, or the extension will not load.
-
----
-
-### 3. Build the Extension
-
-To build the extension in **debug mode**, run:
+### Steps
 
 ```bash
+git clone https://github.com/chiefnull/xed-smali-plugin
+cd xed-smali-plugin
 ./compileDebug
+# output: output/SmaliSupport.zip
 ```
-
-(You can create your own release script later if needed.)
 
 ---
 
-### 4. Find the Output
+## Tools Used
 
-After a successful build, your extension package will be created here:
+| Tool | Version | Source |
+|------|---------|--------|
+| smali | 3.0.9 | [google/smali](https://github.com/google/smali) |
+| baksmali | 3.0.9 | [google/smali](https://github.com/google/smali) |
 
-```
-output/YourExtensionName.zip
-```
+---
 
-This ZIP file is what you load into **Xed-Editor** as a extension.
+## License
 
-This includes guides, API references, examples, and best practices for developing your extensions.
+MIT License — see [LICENSE](LICENSE)
+
+---
+
+## Author
+
+**null**
+GitHub: [@chiefnull](https://github.com/chiefnull)

@@ -11,6 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -43,3 +46,18 @@ jobs:
           name: SmaliSupport
           path: output/*.zip
           if-no-files-found: error
+
+      - name: Delete old release
+        run: gh release delete latest --yes || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: "Smali Plugin — Latest Build"
+          body: "Latest build of the Smali Support plugin for Xed-Editor."
+          files: output/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

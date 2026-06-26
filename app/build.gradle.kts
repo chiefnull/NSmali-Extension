@@ -45,7 +45,7 @@ android {
 // Always try to match the versions of library to the versions used in Xed-Editor
 dependencies {
     // Xed-Editor extension SDK, required to interact with the application, do NOT remove
-    compileOnly(files("libs/sdk.jar"))
+    compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     // If a library is used in Xed-Editor and your extension is common, then you should use compileOnly. Otherwise, it slows down the app.
     compileOnly(libs.androidx.appcompat)

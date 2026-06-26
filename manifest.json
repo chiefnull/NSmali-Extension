@@ -1,5 +1,6 @@
 {
   "id": "com.rk.smali",
+  "icon": "assets/smali-icon.png",
   "name": "Smali Support",
   "mainClass": "com.rk.smali.Main",
   "version": "1.0.0",

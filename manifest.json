@@ -2,7 +2,7 @@
   "id": "com.rk.smali",
   "icon": "assets/smali-icon.png",
   "name": "Smali Support",
-  "mainClass": "com.rk.smali.Main",
+  "mainClass": "com.rk.demo.Main",
   "version": "1.0.0",
   "description": "Smali/Baksmali support for Xed-Editor. Adds syntax highlighting for .smali files and two runners: Assemble (.smali → .dex) and Disassemble (.apk/.dex → .smali).",
   "authors": ["community"],

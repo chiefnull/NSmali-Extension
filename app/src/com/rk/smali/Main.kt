@@ -3,60 +3,48 @@ package com.rk.smali
 import android.app.Activity
 import android.os.Bundle
 import androidx.annotation.Keep
-import com.rk.extension.ExtensionAPI
-import com.rk.extension.ExtensionContext
+import com.rk.xededitor.plugin.ExtensionAPI
+import com.rk.xededitor.plugin.ExtensionContext
 
-/**
- * Smali Plugin for XED Editor
- * Entry class — must match manifest.json "mainClass"
- *
- * Features:
- *  - Smali syntax highlighting via TextMate grammar
- *  - Autocomplete for opcodes, directives, registers, types
- *  - Shell-based Smali runner (baksmali + smali toolchain)
- *  - Settings: toggle autocomplete, choose runner mode
- */
 @Keep
 @Suppress("unused")
 class Main(context: ExtensionContext) : ExtensionAPI(context) {
 
-    private lateinit var smaliLanguage: SmaliLanguage
-    private lateinit var smaliRunner: SmaliRunner
-    private lateinit var smaliSettings: SmaliSettings
-
     override fun onExtensionLoaded() {
-        context.logInfo("SmaliPlugin: Loading...")
-
-        smaliSettings = SmaliSettings(context)
-        smaliLanguage = SmaliLanguage(context)
-        smaliRunner = SmaliRunner(context, smaliSettings)
-
-        // Register .smali file association → syntax highlighting
-        smaliLanguage.register()
-
-        // Register runner for .smali files
-        smaliRunner.register()
-
-        context.logInfo("SmaliPlugin: Loaded OK — syntax + autocomplete + runner active")
+        // Register the two shell runners for .smali files
+        registerRunners()
     }
 
-    override fun onInstalled() {
-        context.logInfo("SmaliPlugin: Installed for the first time")
-        smaliSettings.setDefaults()
+    // ── Runner registration ───────────────────────────────────────────────────
+
+    private fun registerRunners() {
+        // Runner 1: Assemble  (.smali folder / .smali file  →  .dex)
+        context.registerRunner(
+            id          = "smali_assemble",
+            name        = "Smali: Assemble → .dex",
+            description = "Assembles a .smali file or folder into a .dex file using smali.jar",
+            extensions  = listOf("smali"),
+            scriptAsset = "runners/assemble.sh"
+        )
+
+        // Runner 2: Disassemble  (.apk / .dex  →  .smali files)
+        context.registerRunner(
+            id          = "smali_disassemble",
+            name        = "Baksmali: Disassemble → smali",
+            description = "Disassembles a .dex or .apk file into .smali files using baksmali.jar",
+            extensions  = listOf("dex", "apk"),
+            scriptAsset = "runners/disassemble.sh"
+        )
     }
 
-    override fun onUpdated() {
-        context.logInfo("SmaliPlugin: Updated to v1.0.0")
-    }
+    // ── Lifecycle (unused but required) ───────────────────────────────────────
 
-    override fun onUninstalled() {
-        context.logInfo("SmaliPlugin: Uninstalling, cleaning up...")
-        smaliLanguage.unregister()
-        smaliRunner.unregister()
-    }
+    override fun onInstalled()   {}
+    override fun onUninstalled() {}
+    override fun onUpdated()     {}
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
-    override fun onActivityResumed(activity: Activity) {}
-    override fun onActivityPaused(activity: Activity) {}
+    override fun onActivityResumed(activity: Activity)   {}
+    override fun onActivityPaused(activity: Activity)    {}
     override fun onActivityDestroyed(activity: Activity) {}
 }

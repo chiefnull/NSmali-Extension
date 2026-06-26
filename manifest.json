@@ -1,14 +1,11 @@
 {
-  "$schema": "schema/schema.json",
-  "id": "com.rk.demo",
-  "name": "Extension template",
-  "mainClass": "com.rk.demo.Main",
+  "id": "com.rk.smali",
+  "name": "Smali Support",
+  "mainClass": "com.rk.smali.Main",
   "version": "1.0.0",
-  "description": "A demo extension template project",
-  "author": {
-    "displayName": "Unknown"
-  },
-  "minAppVersion": 87,
-  "maxAppVersion": 87,
+  "description": "Smali/Baksmali support for Xed-Editor. Adds syntax highlighting for .smali files and two runners: Assemble (.smali → .dex) and Disassemble (.apk/.dex → .smali).",
+  "authors": ["community"],
+  "minAppVersion": 71,
+  "targetAppVersion": 80,
   "repository": "https://github.com/Xed-Editor/Extension-Template"
 }
